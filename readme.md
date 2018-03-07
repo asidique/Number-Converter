@@ -9,6 +9,7 @@ Note: This is a beta version, more number conversions will be added in upcoming 
 To download and use:
 
 Windows (.exe): https://github.com/asidique/Number-Converter/blob/master/Converter.exe
+
 Mac (.jar): https://github.com/asidique/Number-Converter/blob/master/Converter.jar
 
 <image src="https://github.com/asidique/Number-Converter/blob/master/Screen%20Shot%202018-03-06%20at%206.52.09%20PM.png" width="300" />
