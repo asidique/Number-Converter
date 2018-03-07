@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_converter" default="compile.module.converter">
+  <dirname property="module.converter.basedir" file="${ant.file.module_converter}"/>
+  
+  <property name="module.jdk.home.converter" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.converter" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.converter" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.converter" value="-encoding UTF-8 -source 9 -target 9 ${compiler.args}"/>
+  
+  <property name="converter.output.dir" value="${module.converter.basedir}/out/production/Converter"/>
+  <property name="converter.testoutput.dir" value="${module.converter.basedir}/out/test/Converter"/>
+  
+  <path id="converter.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="converter.module.production.classpath">
+    <path refid="${module.jdk.classpath.converter}"/>
+  </path>
+  
+  <path id="converter.runtime.production.module.classpath">
+    <pathelement location="${converter.output.dir}"/>
+  </path>
+  
+  <path id="converter.module.classpath">
+    <path refid="${module.jdk.classpath.converter}"/>
+    <pathelement location="${converter.output.dir}"/>
+  </path>
+  
+  <path id="converter.runtime.module.classpath">
+    <pathelement location="${converter.testoutput.dir}"/>
+    <pathelement location="${converter.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.converter">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.converter">
+    <patternset refid="excluded.from.module.converter"/>
+  </patternset>
+  
+  <path id="converter.module.sourcepath">
+    <dirset dir="${module.converter.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.converter" depends="compile.module.converter.production,compile.module.converter.tests" description="Compile module Converter"/>
+  
+  <target name="compile.module.converter.production" depends="register.custom.compilers" description="Compile module Converter; production classes">
+    <mkdir dir="${converter.output.dir}"/>
+    <javac2 destdir="${converter.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.converter}/javac">
+      <compilerarg line="${compiler.args.converter}"/>
+      <bootclasspath refid="converter.module.bootclasspath"/>
+      <classpath refid="converter.module.production.classpath"/>
+      <src refid="converter.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.converter"/>
+    </javac2>
+    
+    <copy todir="${converter.output.dir}">
+      <fileset dir="${module.converter.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.converter.tests" depends="register.custom.compilers,compile.module.converter.production" description="compile module Converter; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.converter" description="cleanup module">
+    <delete dir="${converter.output.dir}"/>
+    <delete dir="${converter.testoutput.dir}"/>
+  </target>
+</project>
