@@ -16,3 +16,6 @@ Mac (.jar): https://github.com/asidique/Number-Converter/blob/master/Converter.j
 
 ## Technologies
 IntelliJ IDE CE, JavaFX
+
+## Note
+This app needs the latest version of Java. You can get it here: http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html
